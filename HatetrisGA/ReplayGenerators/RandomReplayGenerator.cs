@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using HatetrisGA.CharacterSets;
 using HatetrisGA.Simulation;
 
 namespace HatetrisGA.ReplayGenerators
@@ -8,23 +10,24 @@ namespace HatetrisGA.ReplayGenerators
     {
         public int Length { get; set; }
 
-        private readonly char[] allowedCharacters = new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         private readonly Randomizer<char> randomizer = new Randomizer<char>();
+        private readonly CharacterSet characterSet;
 
-        public RandomReplayGenerator(int length)
+        public RandomReplayGenerator(CharacterSet characterSet, int length)
         {
+            this.characterSet = characterSet;
             Length = length;
         }
 
         public Replay Generate()
         {
-            var replay = new List<char>();
+            var replayData = new List<char>();
             for (int i = 0; i < Length; i++)
             {
-                replay.Add(randomizer.GetRandom(allowedCharacters));
+                replayData.Add(randomizer.GetRandom(characterSet.GetCharacters()));
             }
 
-            return new Replay(replay);
+            return new Replay(replayData);
         }
     }
 }

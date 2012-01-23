@@ -27,5 +27,24 @@ namespace HatetrisGA.Simulation
             Score = score;
             HighestBlue = highestBlue;
         }
+
+        public int GetFilledSpaces()
+        {
+            int total = 0;
+            foreach (var row in Content)
+            {
+                for (int cell = 1; cell < 1024; cell *= 2)
+                {
+                    if ((row & cell) > 0) // cell is filled
+                    {
+                        total++;
+                    }
+                }
+            }
+
+            return total;
+        }
+
+
     }
 }

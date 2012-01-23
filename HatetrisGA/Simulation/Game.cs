@@ -7,7 +7,7 @@ namespace HatetrisGA.Simulation
 {
     class Game
     {
-        private readonly Replay replay;
+        private Replay replay;
         private Well liveWell;
         private Piece livePiece;
         private static readonly Pieces pieces = new Pieces();
@@ -22,9 +22,8 @@ namespace HatetrisGA.Simulation
             }
         }
 
-        public Game(Replay replay)
+        public Game()
         {
-            this.replay = replay;   
             CreatePlayingField();
         } 
 
@@ -34,11 +33,19 @@ namespace HatetrisGA.Simulation
             livePiece = WorstPiece(liveWell);
         }
 
-        public int Start()
+        public int FilledSpaces()
         {
+            return liveWell.GetFilledSpaces();
+        }
+
+        public int Start(Replay replay)
+        {
+            this.replay = replay;
+
             ClearField();
             InputReplayStep();
-            return 0;
+
+            return Score;
         }
 
         void InputReplayStep()
@@ -83,9 +90,7 @@ namespace HatetrisGA.Simulation
 
             return true;
         }
-        /// <summary>
-        /// Confirmed working.
-        /// </summary>
+
         void CreatePlayingField()
         {
             orientations = new Dictionary<PieceType, List<Orientation>>();
